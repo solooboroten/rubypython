@@ -67,6 +67,11 @@ class RubyPython::PythonExec
         locations << File.join("/opt/lib64", name)
         locations << File.join("/usr/local/lib64", name)
         locations << File.join("/usr/lib64", name)
+        if FFI::Platform::IS_LINUX
+          # On Linux, let's Arch dependent pathways.
+          # (It should be at least for Debian.)
+          locations.concat(Dir.glob(File.join("/usr/lib/*-linux-gnu", name)))
+        end
       end
     end
 
